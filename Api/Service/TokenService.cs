@@ -38,20 +38,21 @@ namespace Api.Service
             {
                new Claim(JwtRegisteredClaimNames.NameId, user.UserName),
                new Claim(JwtRegisteredClaimNames.Jti,Guid.NewGuid().ToString()),
-               new Claim(JwtRegisteredClaimNames.UniqueName,user.Id.ToString())
+              // new Claim(JwtRegisteredClaimNames.UniqueName,user.Id.ToString())
             };
             var roles = await _userManager.GetRolesAsync(user);
             claim.AddRange(roles.Select(role => new Claim(ClaimTypes.Role, role)));
             var creds = new SigningCredentials(_key, SecurityAlgorithms.HmacSha512Signature);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
-                Subject = new ClaimsIdentity(claim),
-                Expires = DateTime.Now.AddMilliseconds(5), // thời gian hiệu lực của token
-                SigningCredentials = creds
+                Subject = new ClaimsIdentity(claim), // thông tin lưu trữ người dùng với token
+                IssuedAt = DateTime.UtcNow, // thời gian ban hành
+                Expires = DateTime.Now.AddMinutes(1), // thời gian hiệu lực của token
+                SigningCredentials = creds // chỉ kí token
             };
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-            var accessToken = tokenHandler.WriteToken(token);
+            var tokenHandler = new JwtSecurityTokenHandler(); // chữ kí mã hóa
+            var token = tokenHandler.CreateToken(tokenDescriptor); // tạo chữ kí
+            var accessToken = tokenHandler.WriteToken(token); // kí vào token
             var refreshToken = GenerateToken();
             var refreshTokenEntity = new RefreshToken
             {
@@ -94,9 +95,9 @@ namespace Api.Service
                 ValidateLifetime = false,
                 ClockSkew = TimeSpan.Zero
             };
-            //check 1 :AccessToken Validate Format
+            //check 1 : kiểm tra định dạng token
             var tokenInVerification = tokenHandler.ValidateToken(tokendto.AccessToken, tokenValidateParam, out var validateToken);
-            //check 2 check alg
+            //check 2 kiểm tra chữ kí token
             if (validateToken is JwtSecurityToken jwtSecurityToken)
             {
                 var result = jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha512, StringComparison.InvariantCultureIgnoreCase);
@@ -105,20 +106,20 @@ namespace Api.Service
                     return null;
                 }
             }
-            //check 3 :check Token expire?
+            //check 3 : kiểm tra hiệu lực token
             var utcExpireDate = long.Parse(tokenInVerification.Claims.FirstOrDefault(x => x.Type == JwtRegisteredClaimNames.Exp).Value);
             var expireDate = ConverUnixTimeToDateTime(utcExpireDate);
             if (expireDate > DateTime.UtcNow)
             {
                 return null;
             }
-            //check 4 :check RefrestToken exist in DB
+            //check 4 : kiểm tra RefreshToken có tồn tại ở Database không?
             var storedToken = _context.RefreshTokens.FirstOrDefault(x => x.Token == tokendto.RefreshToken);
             if (storedToken == null)
             {
                 return null;
             }
-            //check 5: check RefreshToken is used/Revoke?
+            //check 5: kiểm tra RefreshToken đã được sử dụng/thu hồi?
             if (storedToken.IsUsed)
             {
                 return null;
@@ -127,7 +128,7 @@ namespace Api.Service
             {
                 return null;
             }
-            //check 6 :AccesToken Id= Jwt in RefreshToken
+            //check 6 : kiểm tra AccessToken Id=Jwt trong RefreshToken
             var jti = tokenInVerification.Claims.FirstOrDefault(x => x.Type == JwtRegisteredClaimNames.Jti).Value;
             if (storedToken.JwtId != jti)
             {

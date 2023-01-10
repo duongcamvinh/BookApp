@@ -23,7 +23,7 @@ namespace Api.Controllers
             _userRepository = userRepository;
             _mapper = mapper;
         }
-        [Authorize]
+        [Authorize(Policy ="Admin")]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<MemberDto>>> GetUsers()
         {

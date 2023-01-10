@@ -8422,11 +8422,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Vinh\\vinhD\\Learn\\BookOnline\\BookOnline\\Api\\Api.csproj",
+      "projectUniqueName": "C:\\Users\\ADMIN\\Desktop\\BookOnline\\api\\Api.csproj",
       "projectName": "Api",
-      "projectPath": "D:\\Vinh\\vinhD\\Learn\\BookOnline\\BookOnline\\Api\\Api.csproj",
+      "projectPath": "C:\\Users\\ADMIN\\Desktop\\BookOnline\\api\\Api.csproj",
       "packagesPath": "C:\\Users\\ADMIN\\.nuget\\packages\\",
-      "outputPath": "D:\\Vinh\\vinhD\\Learn\\BookOnline\\BookOnline\\Api\\obj\\",
+      "outputPath": "C:\\Users\\ADMIN\\Desktop\\BookOnline\\api\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\ADMIN\\AppData\\Roaming\\NuGet\\NuGet.Config",

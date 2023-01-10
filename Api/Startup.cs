@@ -65,17 +65,20 @@ namespace Api
             {
                 op.TokenValidationParameters = new TokenValidationParameters
                 {
+
                     ValidateIssuer = false,
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
                     ValidateAudience = false,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["TokenKey"]))
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["TokenKey"])),
+                    RequireExpirationTime = true,
+                    
 
                 };
             });
             services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
-            services.Configure<IpRateLimitOptions>(_config.GetSection("IpRateLimiting"));
-            services.Configure<IpRateLimitPolicies>(_config.GetSection("IpRateLimitPolicies"));
+            services.Configure<IpRateLimitOptions>(_config.GetSection("IpRateLimiting"));// cấu hình giới hạn lượt request ở appsettings
+            services.Configure<IpRateLimitPolicies>(_config.GetSection("IpRateLimitPolicies")); // cấu hình policy 
             services.AddMemoryCache();// ghi nhận thông tin cache
             services.AddInMemoryRateLimiting();// bộ nhớ đếm số lưong 
             services.AddAuthorization(o =>
@@ -98,7 +101,7 @@ namespace Api
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-           // app.UseIpRateLimiting();
+            app.UseIpRateLimiting();
             //if (env.IsDevelopment())
             //{
             // //   app.UseDeveloperExceptionPage();
