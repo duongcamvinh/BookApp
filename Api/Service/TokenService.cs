@@ -47,7 +47,7 @@ namespace Api.Service
             {
                 Subject = new ClaimsIdentity(claim), // thông tin lưu trữ người dùng với token
                 IssuedAt = DateTime.UtcNow, // thời gian ban hành
-                Expires = DateTime.Now.AddMinutes(1), // thời gian hiệu lực của token
+                Expires = DateTime.Now.AddMinutes(5), // thời gian hiệu lực của token
                 SigningCredentials = creds // chỉ kí token
             };
             var tokenHandler = new JwtSecurityTokenHandler(); // chữ kí mã hóa

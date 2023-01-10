@@ -37,6 +37,7 @@ namespace Api.Controllers
             var user = await _userRepository.GetUserByUserNameAsync(username);
             return Ok(_mapper.Map<MemberDto>(user));
         }
+        [Authorize(Roles ="Admin")]
         [HttpDelete("delete-user/{id}")]
         public async Task<ActionResult> DeleteUser(int id)
         {
