@@ -1,0 +1,51 @@
+[
+  {
+    "BookName": "book1",
+    "Author": "His",
+    "TitleBooks": "aaaa",
+    "Introduction": "bbbb",
+    "Photos": [
+      {
+        "Url": "https://res.cloudinary.com/vinh96/image/upload/v1672742422/ntqtzc0ojw72wxhii9ul.jpg",
+        "IsMain": true
+      }
+    ]
+  },
+  {
+    "BookName": "book2",
+    "Author": "vinh",
+    "TitleBooks": "aaaa",
+    "Introduction": "bbbb",
+    "Photos": [
+      {
+        "Url": "https://res.cloudinary.com/vinh96/image/upload/v1665914766/nhqoebnc1s2xuiyajlca.jpg",
+        "IsMain": true
+      }
+    ]
+  },
+  {
+    "BookName": "book3",
+    "Author": "duong",
+    "TitleBooks": "aaaa",
+    "Introduction": "bbbb",
+    "Photos": [
+      {
+        "Url": "https://res.cloudinary.com/vinh96/image/upload/v1665914777/tgxbbi2irkbxaie8usws.jpg",
+        "IsMain": true
+      }
+    ]
+  },
+  {
+    "BookName": "book4",
+    "Author": "duong",
+    "TitleBooks": "aaaa",
+    "Introduction": "bbbb",
+    "Photos": [
+      {
+        "Url": "https://res.cloudinary.com/vinh96/image/upload/v1665638208/gqwkasphcavh3hdohr13.jpg",
+        "IsMain": true
+      }
+    ]
+  } 
+]
+
